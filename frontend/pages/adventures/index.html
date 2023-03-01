@@ -146,6 +146,13 @@
             // TODO: MODULE_FILTERS
             // 1. Change the DOM to show the selected duration filter. Use the provided input event
             // 2. Invoke saveFiltersToLocalStorage here
+            document.getElementById("data").textContent="";
+            const duration1=event.target.value;
+            filters["duration"]=duration1;
+
+            let filteredAdventures=filterFunction(adventures,filters);
+            addAdventureToDOM(filteredAdventures);
+            generateFilterPillsAndUpdateDOM(filters);
 
         }
 
@@ -154,6 +161,13 @@
             // TODO: MODULE_FILTERS
             // 1. Change the DOM to clear the Duration filter. Refer clearCategory() below
             // 2. Invoke saveFiltersToLocalStorage here
+                document.getElementById("data").textContent="";
+                filters["duration"]="";
+                document.getElementById("duration-select").selectedIndex = 0;
+                let filteredAdventures=filterFunction(adventures,filters);
+                addAdventureToDOM(filteredAdventures);
+                generateFilterPillsAndUpdateDOM(filters);
+
 
         }
 

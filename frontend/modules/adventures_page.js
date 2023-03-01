@@ -17,7 +17,7 @@ async function fetchAdventures(city) {
   //const city1 = getCityFromURL(city);
   // assume this function returns the name of the city from the URL parameter
 
-  const url = "http://13.233.209.225:8082/adventures?city=" + city;
+  const url = "http://43.205.19.170:8082/adventures?city=" + city;
   try {
     const response = await fetch(url);
     const data = await response.json();
@@ -80,12 +80,22 @@ function addAdventureToDOM(adventures) {
 function filterByDuration(list, low, high) {
   // TODO: MODULE_FILTERS
   // 1. Filter adventures based on Duration and return filtered list
+  const arr=list.filter(function(e)
+  {
+    return (e.duration>=low && e.duration<=high);
+  });
+  return arr;
+
 }
 
 //Implementation of filtering by category which takes in a list of adventures, list of categories to be filtered upon and returns a filtered list of adventures.
 function filterByCategory(list, categoryList) {
   // TODO: MODULE_FILTERS
   // 1. Filter adventures based on their Category and return filtered list
+  const arr1=list.filter(function(e)
+  {return categoryList.includes(e.category)});
+
+  return arr1;
 }
 
 // filters object looks like this filters = { duration: "", category: [] };
@@ -101,6 +111,20 @@ function filterFunction(list, filters) {
   // 2. Depending on which filters are needed, invoke the filterByDuration() and/or filterByCategory() methods
 
   // Place holder for functionality to work in the Stubs
+  const arr=filters["duration"].split("-");
+  const lowint=parseInt(arr[0]);
+  const highint=parseInt(arr[1]);
+
+  if(filters["duration"].length>0)
+  {
+    return filterByDuration(list,lowint,highint)
+  }
+  if(filters["category"].length>0)
+  {
+    return filterByCategory(list,filters["category"])
+  }
+
+
   return list;
 }
 
@@ -108,7 +132,7 @@ function filterFunction(list, filters) {
 function saveFiltersToLocalStorage(filters) {
   // TODO: MODULE_FILTERS
   // 1. Store the filters as a String to localStorage
-
+  localStorage.setItem('filters',JSON.stringify(filters));
   return true;
 }
 
@@ -118,6 +142,7 @@ function getFiltersFromLocalStorage() {
   // 1. Get the filters from localStorage and return String read as an object
 
   // Place holder for functionality to work in the Stubs
+  return JSON.parse(localStorage.getItem("filters"));
   return null;
 }
 
@@ -128,6 +153,13 @@ function getFiltersFromLocalStorage() {
 function generateFilterPillsAndUpdateDOM(filters) {
   // TODO: MODULE_FILTERS
   // 1. Use the filters given as input, update the Duration Filter value and Generate Category Pills
+  const area = document.getElementById("category-list");
+  for (let i in filters["category"]) {
+    const pill = document.createElement("div");
+    pill.setAttribute("class", "category-filter");
+    pill.textContent = filters["category"][i];
+    area.append(pill);
+  }
 }
 export {
   getCityFromURL,
