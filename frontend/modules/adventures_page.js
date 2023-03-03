@@ -17,7 +17,7 @@ async function fetchAdventures(city) {
   //const city1 = getCityFromURL(city);
   // assume this function returns the name of the city from the URL parameter
 
-  const url = "http://15.206.199.250:8082/adventures?city=" + city;
+  const url = config.backendEndpoint+"/adventures?city=" + city;
   try {
     const response = await fetch(url);
     const data = await response.json();
